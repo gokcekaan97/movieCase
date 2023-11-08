@@ -31,17 +31,18 @@ class VerticalMovieCell: UITableViewCell {
   
   func constraintsSetup() {
     image.snp.makeConstraints { make in
-      make.leading.bottom.top.equalToSuperview().offset(16)
+      make.leading.top.equalToSuperview().offset(16)
+      make.bottom.equalToSuperview().inset(16)
       make.width.equalTo(image.snp.height)
     }
     cellName.snp.makeConstraints { make in
       make.leading.equalTo(image.snp.trailing).offset(16)
       make.top.equalToSuperview().offset(16)
       make.trailing.equalToSuperview().inset(16)
+      make.bottom.equalTo(cellDescription.snp.top)
     }
     cellDescription.snp.makeConstraints { make in
       make.leading.equalTo(image.snp.trailing).offset(16)
-      make.top.equalTo(cellName.snp.bottom).offset(16)
       make.trailing.equalToSuperview().inset(16)
       make.bottom.equalToSuperview().inset(16)
     }
