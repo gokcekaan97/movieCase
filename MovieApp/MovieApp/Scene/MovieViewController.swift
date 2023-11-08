@@ -13,8 +13,8 @@ class MovieViewController: UIViewController {
   public var horizontalCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.scrollDirection = .horizontal
-    let width = UIScreen.main.bounds.width/3
-    layout.itemSize = CGSize(width: width, height: width)
+    let width = UIScreen.main.bounds.width/2
+    layout.itemSize = CGSize(width: width, height: (width / 1.2))
     layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,14 +79,6 @@ extension MovieViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: CollectionView delegate & datasource
 extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//    let width = UIScreen.main.bounds.width / 2
-//    return CGSize(
-//      width: width,
-//      height: width
-//    )
-//  }
-  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 10
   }
