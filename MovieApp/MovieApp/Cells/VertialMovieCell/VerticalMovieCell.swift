@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 
 class VerticalMovieCell: UITableViewCell {
-  public let image = UIImageView() 
-  public let cellName = UILabel()
-  public let cellDescription = UILabel()
+  public var image: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.contentMode = .scaleAspectFill
+    imageView.clipsToBounds = true
+    return imageView
+  }()
+  public var cellName = UILabel()
+  public var cellDescription = UILabel()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,6 +32,7 @@ class VerticalMovieCell: UITableViewCell {
   func constraintsSetup() {
     image.snp.makeConstraints { make in
       make.leading.bottom.top.equalToSuperview().offset(16)
+      make.width.equalTo(image.snp.height)
     }
     cellName.snp.makeConstraints { make in
       make.leading.equalTo(image.snp.trailing).offset(16)
