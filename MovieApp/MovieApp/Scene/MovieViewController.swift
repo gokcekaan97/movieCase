@@ -8,7 +8,7 @@
 import UIKit
 
 class MovieViewController: UIViewController {
-  
+  public var viewModel = MovieViewModel()
   public var verticalTableView = UITableView()
   public var horizontalCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
