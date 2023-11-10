@@ -82,7 +82,7 @@ extension VerticalMovieView: UITableViewDelegate, UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "VerticalMovieCell", for: indexPath) as? VerticalMovieCell else {fatalError()}
     cell.cellName.text = viewModel.response?.search[indexPath.row].title
     cell.cellDescription.text = viewModel.response?.search[indexPath.row].year
-    cell.image.image = .none
+    cell.image.downloaded(from: (viewModel.response?.search[indexPath.row].imageUrl)!)
     return cell
   }
 }

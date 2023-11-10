@@ -22,9 +22,11 @@ struct SearchResponse: Codable {
 struct SearchList: Codable {
   let title: String?
   let year: String?
+  let imageUrl: String?
   
   enum CodingKeys: String, CodingKey {
     case title = "Title"
     case year = "Year"
+    case imageUrl = "Poster"
   }
 }

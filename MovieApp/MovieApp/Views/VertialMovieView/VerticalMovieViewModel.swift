@@ -10,6 +10,7 @@ import Foundation
 class VerticalMovieViewModel {
   var response: SearchResponse?
   let movieListUseCase = MovieUseCase()
+  
   init() {
   }
   

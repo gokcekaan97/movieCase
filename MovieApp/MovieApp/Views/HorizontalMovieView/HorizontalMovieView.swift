@@ -48,6 +48,7 @@ class HorizontalMovieView: UIView {
     uiGroup.notify(queue: .main) { [weak self] in
       self?.loadIcon.stopAnimating()
       self?.horizontalCollectionView.isHidden = false
+      self?.horizontalCollectionView.reloadData()
     }
   }
   
@@ -81,7 +82,7 @@ extension HorizontalMovieView: UICollectionViewDelegate, UICollectionViewDataSou
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HorizontalMovieCell", for: indexPath) as? HorizontalMovieCell else {fatalError()}
-    cell.image.image = .none
+    cell.image.downloaded(from: (viewModel.response?.search[indexPath.row].imageUrl)!)
     return cell
   }
   
