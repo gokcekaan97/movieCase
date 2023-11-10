@@ -32,7 +32,6 @@ class HorizontalMovieCell: UICollectionViewCell {
     image.snp.makeConstraints { make in
       make.top.leading.equalToSuperview().offset(16)
       make.bottom.trailing.equalToSuperview().inset(16)
-      make.width.equalTo(image.snp.height)
     }
   }
   

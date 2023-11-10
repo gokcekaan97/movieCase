@@ -1,23 +1,23 @@
 //
-//  MovieViewModel.swift
+//  HorizontalMovieViewModel.swift
 //  MovieApp
 //
-//  Created by kaan gokcek on 8.11.2023.
+//  Created by kaan gokcek on 10.11.2023.
 //
 
 import Foundation
 
-class MovieViewModel {
+class HorizontalMovieViewModel {
+  var response: SearchResponse?
   let movieListUseCase = MovieUseCase()
   init() {
-//    getFirstList()
   }
   
   func getFirstList() {
-    movieListUseCase.getMovieList(search: "star", page: nil) { result in
+    movieListUseCase.getMovieList(search: "Comedy", page: nil) { result in
       switch result {
       case .success(let movies):
-        print(movies)
+        self.response = movies
       case .failure(let error):
         print(error)
       }
