@@ -11,12 +11,14 @@ class MovieViewController: UIViewController {
   public var viewModel = MovieViewModel()
   public var verticalTableView = VerticalMovieView()
   public var horizontalCollectionView = HorizontalMovieView()
+  public let searchController = UISearchController(searchResultsController: nil)
 
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
     setupSubviews()
     setupConstraints()
+    setupSearch()
   }
 
   func setupSubviews() {
@@ -34,4 +36,16 @@ class MovieViewController: UIViewController {
       make.height.equalTo(UIScreen.main.bounds.height/4)
     }
   }
+  
+  func setupSearch() {
+    searchController.delegate = self
+    searchController.searchBar.delegate = self
+    self.navigationItem.hidesSearchBarWhenScrolling = false
+    self.navigationItem.searchController = searchController
+  }
+}
+
+//MARK: delegate
+extension MovieViewController: UISearchControllerDelegate, UISearchBarDelegate {
+  
 }
