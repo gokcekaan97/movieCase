@@ -65,7 +65,7 @@ class VerticalMovieView: UIView {
   
   func moreRequest() {
     viewModel.getListWithPage()
-    DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
       self.verticalTableView.reloadData()
     })
   }
