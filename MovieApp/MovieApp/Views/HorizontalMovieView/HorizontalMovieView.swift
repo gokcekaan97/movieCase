@@ -29,6 +29,7 @@ class HorizontalMovieView: UIView {
     return loadIcon
   }()
   public let uiGroup = DispatchGroup()
+  weak var delegate: MovieViewDelegate?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -92,6 +93,10 @@ extension HorizontalMovieView: UICollectionViewDelegate, UICollectionViewDataSou
     if indexPath.row == viewModel.responseList.endIndex - 4 {
       moreRequest()
     }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    delegate?.didSelectRowCollectionView(at: indexPath)
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

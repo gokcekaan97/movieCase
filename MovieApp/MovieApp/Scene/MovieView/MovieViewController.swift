@@ -8,6 +8,11 @@
 import UIKit
 import SnapKit
 
+protocol MovieViewDelegate: AnyObject {
+  func didSelectRowTableView(at indexPath: IndexPath)
+  func didSelectRowCollectionView(at indexPath: IndexPath)
+}
+
 class MovieViewController: UIViewController {
   public var viewModel = MovieViewModel()
   public var verticalTableView = VerticalMovieView()
@@ -27,6 +32,7 @@ class MovieViewController: UIViewController {
     self.view.addSubview(verticalTableView)
     verticalTableView.delegate = self
     self.view.addSubview(horizontalCollectionView)
+    horizontalCollectionView.delegate = self
   }
   
   func setupConstraints() {
@@ -68,7 +74,14 @@ class MovieViewController: UIViewController {
 }
 
 extension MovieViewController: MovieViewDelegate {
-  func didSelectRow(at indexPath: IndexPath) {
+  func didSelectRowCollectionView(at indexPath: IndexPath) {
+    MovieDetailCoordinator(
+      router: self.navigationController!,
+      movieId: horizontalCollectionView.viewModel.responseList[indexPath.row].movieId!
+    ).pushCoordinator(animated: true, completion: nil)
+  }
+  
+  func didSelectRowTableView(at indexPath: IndexPath) {
     MovieDetailCoordinator(
       router: self.navigationController!,
       movieId: verticalTableView.viewModel.responseList[indexPath.row].movieId!

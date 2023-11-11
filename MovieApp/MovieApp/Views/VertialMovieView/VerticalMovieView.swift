@@ -8,10 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol MovieViewDelegate: AnyObject {
-    func didSelectRow(at indexPath: IndexPath)
-}
-
 class VerticalMovieView: UIView {
   public var verticalTableView: UITableView = {
     let tableView = UITableView()
@@ -116,7 +112,7 @@ extension VerticalMovieView: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    delegate?.didSelectRow(at: indexPath)
+    delegate?.didSelectRowTableView(at: indexPath)
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
