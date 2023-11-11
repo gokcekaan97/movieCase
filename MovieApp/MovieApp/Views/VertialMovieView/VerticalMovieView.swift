@@ -23,6 +23,7 @@ class VerticalMovieView: UIView {
     return loadIcon
   }()
   public let uiGroup = DispatchGroup()
+  weak var delegate: MovieViewDelegate?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -30,8 +31,8 @@ class VerticalMovieView: UIView {
     setupView()
     setupConstrains()
     uiGroup.enter()
-    requesResponse()
-    notifyUI()
+    firstRequesResponse()
+    notifyFirstRequestUI()
   }
   
   required init?(coder: NSCoder) {
@@ -55,7 +56,7 @@ class VerticalMovieView: UIView {
     loadIcon.startAnimating()
   }
   
-  func notifyUI() {
+  func notifyFirstRequestUI() {
     uiGroup.notify(queue: .main) { [weak self] in
       self?.loadIcon.stopAnimating()
       self?.verticalTableView.isHidden = false
@@ -63,26 +64,64 @@ class VerticalMovieView: UIView {
     }
   }
   
-  func requesResponse() {
+  func moreRequest() {
+    if viewModel.searchText == "" {
+      viewModel.getListWithPage()
+      DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+        self.verticalTableView.reloadData()
+      })
+    } else {
+      viewModel.getListWithPage(viewModel.searchText)
+      DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+        self.verticalTableView.reloadData()
+      })
+    }
+  }
+  
+  func firstRequesResponse() {
     viewModel.getFirstList()
     uiGroup.leave()
   }
 }
 
+//MARK: delegate
 extension VerticalMovieView: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 100
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
+    if viewModel.responseList.count == 0 {
+      tableView.isHidden = true
+      loadIcon.startAnimating()
+    } else {
+      tableView.isHidden = false
+      loadIcon.stopAnimating()
+    }
+    return viewModel.responseList.count
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if indexPath.row == viewModel.responseList.endIndex - 4,
+       viewModel.searchEnabled == false {
+      moreRequest()
+    } else if indexPath.row == viewModel.responseList.endIndex - 4,
+              viewModel.searchEnabled == true {
+      moreRequest()
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    delegate?.didSelectRowTableView(at: indexPath)
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "VerticalMovieCell", for: indexPath) as? VerticalMovieCell else {fatalError()}
-    cell.cellName.text = viewModel.response?.search[indexPath.row].title
-    cell.cellDescription.text = viewModel.response?.search[indexPath.row].year
-    cell.image.downloaded(from: (viewModel.response?.search[indexPath.row].imageUrl)!)
+    if viewModel.responseList.count != 0{
+      cell.cellName.text = viewModel.responseList[indexPath.row].title
+      cell.cellDescription.text = viewModel.responseList[indexPath.row].year
+      cell.image.downloaded(from: (viewModel.responseList[indexPath.row].imageUrl)!)
+    }
     return cell
   }
 }

@@ -23,10 +23,24 @@ struct SearchList: Codable {
   let title: String?
   let year: String?
   let imageUrl: String?
+  let movieId: String?
   
   enum CodingKeys: String, CodingKey {
     case title = "Title"
     case year = "Year"
+    case imageUrl = "Poster"
+    case movieId = "imdbID"
+  }
+}
+
+struct MovieDetail: Codable{
+  let title: String?
+  let description: String?
+  let imageUrl: String?
+  
+  enum CodingKeys: String, CodingKey {
+    case title = "Title"
+    case description = "Plot"
     case imageUrl = "Poster"
   }
 }

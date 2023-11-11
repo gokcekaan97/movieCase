@@ -29,6 +29,7 @@ class HorizontalMovieView: UIView {
     return loadIcon
   }()
   public let uiGroup = DispatchGroup()
+  weak var delegate: MovieViewDelegate?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -66,6 +67,13 @@ class HorizontalMovieView: UIView {
     }
   }
   
+  func moreRequest() {
+    viewModel.getListWithPage()
+    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+      self.horizontalCollectionView.reloadData()
+    })
+  }
+  
   private func setupView(){
     horizontalCollectionView.delegate = self
     horizontalCollectionView.dataSource = self
@@ -75,16 +83,25 @@ class HorizontalMovieView: UIView {
   }
 }
 
+//MARK: delegate
 extension HorizontalMovieView: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return viewModel.responseList.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    if indexPath.row == viewModel.responseList.endIndex - 4 {
+      moreRequest()
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    delegate?.didSelectRowCollectionView(at: indexPath)
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HorizontalMovieCell", for: indexPath) as? HorizontalMovieCell else {fatalError()}
-    cell.image.downloaded(from: (viewModel.response?.search[indexPath.row].imageUrl)!)
+    cell.image.downloaded(from: (viewModel.responseList[indexPath.row].imageUrl)!)
     return cell
   }
-  
 }
-
