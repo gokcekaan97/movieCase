@@ -24,6 +24,8 @@
 		27802F6B2AFE4EBF00A57667 /* HorizontalMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27802F6A2AFE4EBF00A57667 /* HorizontalMovieViewModel.swift */; };
 		27802F6D2AFE5A0300A57667 /* VerticalMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27802F6C2AFE5A0300A57667 /* VerticalMovieViewModel.swift */; };
 		27802F732AFE6D3500A57667 /* ImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27802F722AFE6D3500A57667 /* ImageView+Extension.swift */; };
+		27802F772AFF85AA00A57667 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27802F762AFF85AA00A57667 /* MovieDetailViewController.swift */; };
+		27802F792AFF86F300A57667 /* MovieDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27802F782AFF86F300A57667 /* MovieDetailViewModel.swift */; };
 		AD4B9F497BA0B3DBEE4794FB /* Pods_MovieApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29CF1AD9A81673F47C88C3E /* Pods_MovieApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,8 @@
 		27802F6A2AFE4EBF00A57667 /* HorizontalMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalMovieViewModel.swift; sourceTree = "<group>"; };
 		27802F6C2AFE5A0300A57667 /* VerticalMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalMovieViewModel.swift; sourceTree = "<group>"; };
 		27802F722AFE6D3500A57667 /* ImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Extension.swift"; sourceTree = "<group>"; };
+		27802F762AFF85AA00A57667 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
+		27802F782AFF86F300A57667 /* MovieDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewModel.swift; sourceTree = "<group>"; };
 		7221D04AFE21A1600B71306F /* Pods-MovieApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.debug.xcconfig"; path = "Target Support Files/Pods-MovieApp/Pods-MovieApp.debug.xcconfig"; sourceTree = "<group>"; };
 		86DFA2F12C0BD25DCD4BEFE0 /* Pods-MovieApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.release.xcconfig"; path = "Target Support Files/Pods-MovieApp/Pods-MovieApp.release.xcconfig"; sourceTree = "<group>"; };
 		D29CF1AD9A81673F47C88C3E /* Pods_MovieApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,8 +114,8 @@
 		27802F482AFA89DD00A57667 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				27281F1E2AFA8299007E5C81 /* MovieViewController.swift */,
-				27802F5F2AFBCCFB00A57667 /* MovieViewModel.swift */,
+				27802F752AFF859A00A57667 /* MovieDetailView */,
+				27802F742AFF859200A57667 /* MovieView */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -161,6 +165,24 @@
 				27802F642AFBCE3900A57667 /* ResponseModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		27802F742AFF859200A57667 /* MovieView */ = {
+			isa = PBXGroup;
+			children = (
+				27802F5F2AFBCCFB00A57667 /* MovieViewModel.swift */,
+				27281F1E2AFA8299007E5C81 /* MovieViewController.swift */,
+			);
+			path = MovieView;
+			sourceTree = "<group>";
+		};
+		27802F752AFF859A00A57667 /* MovieDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				27802F762AFF85AA00A57667 /* MovieDetailViewController.swift */,
+				27802F782AFF86F300A57667 /* MovieDetailViewModel.swift */,
+			);
+			path = MovieDetailView;
 			sourceTree = "<group>";
 		};
 		43E5CDE49F00353575F4899E /* Frameworks */ = {
@@ -306,7 +328,9 @@
 				27802F672AFE4A8600A57667 /* VerticalMovieView.swift in Sources */,
 				27802F732AFE6D3500A57667 /* ImageView+Extension.swift in Sources */,
 				27281F1F2AFA8299007E5C81 /* MovieViewController.swift in Sources */,
+				27802F772AFF85AA00A57667 /* MovieDetailViewController.swift in Sources */,
 				27281F1B2AFA8299007E5C81 /* AppDelegate.swift in Sources */,
+				27802F792AFF86F300A57667 /* MovieDetailViewModel.swift in Sources */,
 				27802F652AFBCE3900A57667 /* ResponseModel.swift in Sources */,
 				27281F252AFA8299007E5C81 /* MovieApp.xcdatamodeld in Sources */,
 			);

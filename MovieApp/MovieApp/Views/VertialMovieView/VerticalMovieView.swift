@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol MovieViewDelegate: AnyObject {
+    func didSelectRow(at indexPath: IndexPath)
+}
+
 class VerticalMovieView: UIView {
   public var verticalTableView: UITableView = {
     let tableView = UITableView()
@@ -23,6 +27,7 @@ class VerticalMovieView: UIView {
     return loadIcon
   }()
   public let uiGroup = DispatchGroup()
+  weak var delegate: MovieViewDelegate?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -108,6 +113,10 @@ extension VerticalMovieView: UITableViewDelegate, UITableViewDataSource {
               viewModel.searchEnabled == true {
       moreRequest()
     }
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    delegate?.didSelectRow(at: indexPath)
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

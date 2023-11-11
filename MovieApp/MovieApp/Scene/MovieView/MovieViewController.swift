@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class MovieViewController: UIViewController {
   public var viewModel = MovieViewModel()
@@ -24,6 +25,7 @@ class MovieViewController: UIViewController {
 
   func setupSubviews() {
     self.view.addSubview(verticalTableView)
+    verticalTableView.delegate = self
     self.view.addSubview(horizontalCollectionView)
   }
   
@@ -54,6 +56,7 @@ class MovieViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
           self.verticalTableView.verticalTableView.reloadData()
           if self.verticalTableView.viewModel.responseList.count != 0{
+            self.verticalTableView.verticalTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             self.verticalTableView.verticalTableView.isHidden = false
             self.verticalTableView.loadIcon.stopAnimating()
           }
@@ -61,6 +64,15 @@ class MovieViewController: UIViewController {
       }
     }
     searchTimer?.invalidate()
+  }
+}
+
+extension MovieViewController: MovieViewDelegate {
+  func didSelectRow(at indexPath: IndexPath) {
+    MovieDetailCoordinator(
+      router: self.navigationController!,
+      movieId: verticalTableView.viewModel.responseList[indexPath.row].movieId!
+    ).pushCoordinator(animated: true, completion: nil)
   }
 }
 
@@ -75,8 +87,6 @@ extension MovieViewController: UISearchControllerDelegate, UISearchBarDelegate, 
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
     verticalTableView.viewModel.searchEnabled = true
-//    verticalTableView.verticalTableView.isHidden = true
-//    verticalTableView.loadIcon.startAnimating()
   }
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -90,8 +100,9 @@ extension MovieViewController: UISearchControllerDelegate, UISearchBarDelegate, 
     verticalTableView.viewModel.searchEnabled = false
     verticalTableView.viewModel.searchText = ""
     verticalTableView.viewModel.getFirstList()
-    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
       self.verticalTableView.verticalTableView.reloadData()
+      self.verticalTableView.verticalTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     })
   }
 }
