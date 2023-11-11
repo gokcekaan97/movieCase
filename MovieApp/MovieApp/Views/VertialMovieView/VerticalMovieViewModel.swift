@@ -10,6 +10,8 @@ import Foundation
 class VerticalMovieViewModel {
   var responseList = [SearchList]()
   let movieListUseCase = MovieUseCase()
+  var searchEnabled = false
+  var searchText = ""
   var pageInt = 1
   let initialSearchString = "Star"
   var pageString: String? = nil
@@ -18,7 +20,9 @@ class VerticalMovieViewModel {
   }
   
   func getFirstList(_ search: String? = nil) {
+    responseList.removeAll()
     pageInt = 1
+    pageString = String(pageInt)
     movieListUseCase.getMovieList(search: search ?? initialSearchString, page: pageString) { result in
       switch result {
       case .success(let movies):

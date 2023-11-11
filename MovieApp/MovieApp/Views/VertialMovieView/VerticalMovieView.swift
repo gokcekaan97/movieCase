@@ -64,10 +64,17 @@ class VerticalMovieView: UIView {
   }
   
   func moreRequest() {
-    viewModel.getListWithPage()
-    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-      self.verticalTableView.reloadData()
-    })
+    if viewModel.searchText == "" {
+      viewModel.getListWithPage()
+      DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+        self.verticalTableView.reloadData()
+      })
+    } else {
+      viewModel.getListWithPage(viewModel.searchText)
+      DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+        self.verticalTableView.reloadData()
+      })
+    }
   }
   
   func firstRequesResponse() {
@@ -83,20 +90,33 @@ extension VerticalMovieView: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if viewModel.responseList.count == 0 {
+      tableView.isHidden = true
+      loadIcon.startAnimating()
+    } else {
+      tableView.isHidden = false
+      loadIcon.stopAnimating()
+    }
     return viewModel.responseList.count
   }
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if indexPath.row == viewModel.responseList.endIndex - 4{
+    if indexPath.row == viewModel.responseList.endIndex - 4,
+       viewModel.searchEnabled == false {
+      moreRequest()
+    } else if indexPath.row == viewModel.responseList.endIndex - 4,
+              viewModel.searchEnabled == true {
       moreRequest()
     }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "VerticalMovieCell", for: indexPath) as? VerticalMovieCell else {fatalError()}
-    cell.cellName.text = viewModel.responseList[indexPath.row].title
-    cell.cellDescription.text = viewModel.responseList[indexPath.row].year
-    cell.image.downloaded(from: (viewModel.responseList[indexPath.row].imageUrl)!)
+    if viewModel.responseList.count != 0{
+      cell.cellName.text = viewModel.responseList[indexPath.row].title
+      cell.cellDescription.text = viewModel.responseList[indexPath.row].year
+      cell.image.downloaded(from: (viewModel.responseList[indexPath.row].imageUrl)!)
+    }
     return cell
   }
 }
