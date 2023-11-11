@@ -30,8 +30,8 @@ class VerticalMovieView: UIView {
     setupView()
     setupConstrains()
     uiGroup.enter()
-    requesResponse()
-    notifyUI()
+    firstRequesResponse()
+    notifyFirstRequestUI()
   }
   
   required init?(coder: NSCoder) {
@@ -55,7 +55,7 @@ class VerticalMovieView: UIView {
     loadIcon.startAnimating()
   }
   
-  func notifyUI() {
+  func notifyFirstRequestUI() {
     uiGroup.notify(queue: .main) { [weak self] in
       self?.loadIcon.stopAnimating()
       self?.verticalTableView.isHidden = false
@@ -63,7 +63,14 @@ class VerticalMovieView: UIView {
     }
   }
   
-  func requesResponse() {
+  func moreRequest() {
+    viewModel.getListWithPage()
+    DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+      self.verticalTableView.reloadData()
+    })
+  }
+  
+  func firstRequesResponse() {
     viewModel.getFirstList()
     uiGroup.leave()
   }
@@ -76,14 +83,20 @@ extension VerticalMovieView: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
+    return viewModel.responseList.count
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if indexPath.row == viewModel.responseList.endIndex - 4{
+      moreRequest()
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "VerticalMovieCell", for: indexPath) as? VerticalMovieCell else {fatalError()}
-    cell.cellName.text = viewModel.response?.search[indexPath.row].title
-    cell.cellDescription.text = viewModel.response?.search[indexPath.row].year
-    cell.image.downloaded(from: (viewModel.response?.search[indexPath.row].imageUrl)!)
+    cell.cellName.text = viewModel.responseList[indexPath.row].title
+    cell.cellDescription.text = viewModel.responseList[indexPath.row].year
+    cell.image.downloaded(from: (viewModel.responseList[indexPath.row].imageUrl)!)
     return cell
   }
 }
